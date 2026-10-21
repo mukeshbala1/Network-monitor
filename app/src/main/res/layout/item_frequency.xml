@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="14dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <!-- Title row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivDot"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/shape_dot_green"
+                android:contentDescription="images" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/fm_radio_1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:paddingStart="8dp"
+                android:textColor="#1A1A1A"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/tvActivePill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="active"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:textColor="#1A1A1A"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@drawable/bg_pill_neutral"/>
+        </LinearLayout>
+
+        <!-- Key stats row (Frequency | Strength | Bandwidth | Modulation) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:weightSum="4">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView android:text="Frequency" android:textSize="12sp" android:textColor="#7A7A7A" android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+                <TextView android:id="@+id/tvFrequency" android:text="2.424 GHz" android:textStyle="bold" android:textColor="#1A1A1A"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView android:text="Strength" android:textSize="12sp" android:textColor="#7A7A7A"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+                <TextView android:id="@+id/tvStrength" android:text="-62 dBm" android:textStyle="bold" android:textColor="#1A1A1A" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView android:text="Bandwidth" android:textSize="12sp" android:textColor="#7A7A7A" android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+                <TextView android:id="@+id/tvBandwidth" android:text="2 MHz" android:textStyle="bold" android:textColor="#1A1A1A" android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView android:text="Modulation" android:textSize="12sp" android:textColor="#7A7A7A"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+                <TextView android:id="@+id/tvModulation" android:text="GFSK" android:textStyle="bold" android:textColor="#1A1A1A"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Signal Quality -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Signal Quality"
+            android:textSize="12sp"
+            android:textColor="#7A7A7A"
+            android:layout_marginTop="12dp"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressQuality"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="6dp"
+            app:trackThickness="8dp"
+            app:trackCornerRadius="4dp"
+            app:indicatorColor="?attr/colorPrimary"/>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">KAVACH</string>
+    <string name="fm_radio_1">ESP32 RF Node 01 (NRF24L01+)</string>
+</resources>
