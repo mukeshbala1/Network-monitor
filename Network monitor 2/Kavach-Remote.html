@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAVACH IoT Remote Controller</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+        .status-box {
+            padding: 18px;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+        .status-active {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1.5px solid #10b981;
+            color: #34d399;
+        }
+        .status-standby {
+            background: rgba(148, 163, 184, 0.12);
+            border: 1.5px solid #64748b;
+            color: #94a3b8;
+        }
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        button {
+            border: none;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        button:active {
+            transform: scale(0.97);
+        }
+        .btn-on {
+            background: #10b981;
+            color: white;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+        }
+        .btn-on:hover {
+            background: #059669;
+        }
+        .btn-off {
+            background: #ef4444;
+            color: white;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+        }
+        .btn-off:hover {
+            background: #dc2626;
+        }
+        .hint {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #1e293b;
+        }
+        .key-badge {
+            background: #334155;
+            color: #f1f5f9;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>🛡️ KAVACH Hardware Controller</h1>
+        <p class="subtitle">Live Cloud Switch for Android App Demo</p>
+
+        <div id="statusIndicator" class="status-box status-standby">
+            Current Status: Checking...
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-on" onclick="setDeviceState(true)">🟢 DEVICE ON<br><small style="font-size:12px;opacity:0.8">(Active Mode)</small></button>
+            <button class="btn-off" onclick="setDeviceState(false)">🔴 DEVICE OFF<br><small style="font-size:12px;opacity:0.8">(Standby Mode)</small></button>
+        </div>
+
+        <div class="hint">
+            ⌨️ <b>Keyboard Shortcuts:</b> Press <span class="key-badge">ESC</span>, <span class="key-badge">~ / `</span>, or <span class="key-badge">SPACE</span> to instantly Toggle between ON & OFF!
+        </div>
+    </div>
+
+    <script>
+        const FIREBASE_URL = "https://kavach-rf-default-rtdb.firebaseio.com/kavach/system_control/device_online.json";
+        let currentState = false;
+
+        async function fetchState() {
+            try {
+                const res = await fetch(FIREBASE_URL);
+                const data = await res.json();
+                updateUI(Boolean(data));
+            } catch (e) {
+                console.error("Fetch error:", e);
+            }
+        }
+
+        async function setDeviceState(state) {
+            try {
+                updateUI(state);
+                await fetch(FIREBASE_URL, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(state)
+                });
+            } catch (e) {
+                alert("Network error: " + e.message);
+            }
+        }
+
+        function updateUI(isOnline) {
+            currentState = isOnline;
+            const el = document.getElementById("statusIndicator");
+            if (isOnline) {
+                el.className = "status-box status-active";
+                el.innerHTML = "● HARDWARE IS ONLINE (Active Mode)";
+            } else {
+                el.className = "status-box status-standby";
+                el.innerHTML = "○ HARDWARE IS OFFLINE (Standby Mode)";
+            }
+        }
+
+        // Shortcuts: Space, Esc, and Tilde / Backtick (`)
+        window.addEventListener("keydown", (e) => {
+            if (e.code === "Space" || e.code === "Escape" || e.code === "Backquote" || e.key === "Escape" || e.key === "`" || e.key === "~") {
+                e.preventDefault();
+                setDeviceState(!currentState);
+            }
+        });
+
+        fetchState();
+        setInterval(fetchState, 3000);
+    </script>
+</body>
+</html>
