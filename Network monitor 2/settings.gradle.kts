@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "KAVACH"
+rootProject.name = "Network monitor 2"
 include(":app")
